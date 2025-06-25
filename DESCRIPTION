@@ -1,0 +1,28 @@
+Package: dfine
+Type: Package
+Title: Tools for Defining Developmental Scales in Early Childhood
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Stef", "van Buuren",
+      email = "stef.vanbuuren@tno.nl",
+      role = c("aut", "cre")
+    ),
+    person(
+      "Iris", "Eekhout",
+      email = "iris.eekhout@tno.nl",
+      role = c("aut")
+    )
+  )
+Description: Tools to define uni-dimensional measurement scales 
+    for child development, dedicated to cleaning, refining, and modeling binary
+    responses to developmental milestones. The package supports data from 
+    multiple instruments and sources, and provides functionality to define, 
+    estimate, evaluate, and extend statistical models for establishing a 
+    quantitative scale of early childhood development. By setting a solid 
+    foundation, dfine enables meaningful comparison and integration of data 
+    across diverse contexts, paving the way for a globally accepted measurement
+    scale independent of specific instruments.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
