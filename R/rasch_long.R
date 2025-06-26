@@ -164,6 +164,8 @@ rasch_long <- function(long,
   # return fitted object
   res <- list(items = items,
               visit_var = visit_var,
+              item_var = item_var,
+              response_var = response_var,
               shape = "long",
               equate = equate,
               b_fixed = b_fixed,

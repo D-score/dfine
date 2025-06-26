@@ -71,6 +71,8 @@
 #'  item parameters were estimated.
 #' - `visit_var`: A character vector with the names of the variables to define
 #'  unique visits.
+#' - `item_var`: The name of the variable containing item names.
+#' - `response_var`: The name of the variable containing item responses.
 #' - `shape`: The shape of the data, either `"wide"` or `"long"`.
 #' - `b_fixed`: The `b_fixed` argument values.
 #' - `equate`: The `equate` argument values.

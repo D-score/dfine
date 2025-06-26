@@ -194,6 +194,8 @@ rasch_wide <- function(wide,
 
   res <- list(items = items,
               visit_var = NULL,
+              item_var = NULL,
+              response_var = NULL,
               shape = "wide",
               equate = equate,
               b_fixed = b_fixed,

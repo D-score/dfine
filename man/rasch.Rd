@@ -96,6 +96,8 @@ A list with the following elements:
 item parameters were estimated.
 \item \code{visit_var}: A character vector with the names of the variables to define
 unique visits.
+\item \code{item_var}: The name of the variable containing item names.
+\item \code{response_var}: The name of the variable containing item responses.
 \item \code{shape}: The shape of the data, either \code{"wide"} or \code{"long"}.
 \item \code{b_fixed}: The \code{b_fixed} argument values.
 \item \code{equate}: The \code{equate} argument values.
