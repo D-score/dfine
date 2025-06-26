@@ -73,15 +73,31 @@ rasch_wide <- function(wide,
   wide <- matrix(as.integer(wide), nrow = nrow(wide), ncol = ncol(wide),
                  dimnames = list(rownames(wide), colnames(wide)))
 
-  # Check for values > 1
-  out_of_range_max <- sapply(wide, function(x) max(x, na.rm = TRUE) > 1)
+  # # Check for values > 1
+  # out_of_range_max <- sapply(wide, function(x) max(x, na.rm = TRUE) > 1)
+  # if (any(out_of_range_max)) {
+  #   stop(paste("Some items have scores > 1:",
+  #              paste(colnames(wide)[out_of_range_max], collapse = ", ")))
+  # }
+  #
+  # # Check for values < 0
+  # out_of_range_min <- sapply(wide, function(x) min(x, na.rm = TRUE) < 0)
+  # if (any(out_of_range_min)) {
+  #   stop(paste("Some items have scores < 0:",
+  #              paste(colnames(wide)[out_of_range_min], collapse = ", ")))
+  # }
+
+  # Convert to numeric matrix if needed
+
+  # Check max > 1
+  out_of_range_max <- matrixStats::colMaxs(wide, na.rm = TRUE) > 1
   if (any(out_of_range_max)) {
     stop(paste("Some items have scores > 1:",
                paste(colnames(wide)[out_of_range_max], collapse = ", ")))
   }
 
-  # Check for values < 0
-  out_of_range_min <- sapply(wide, function(x) min(x, na.rm = TRUE) < 0)
+  # Check min < 0
+  out_of_range_min <- matrixStats::colMins(wide, na.rm = TRUE) < 0
   if (any(out_of_range_min)) {
     stop(paste("Some items have scores < 0:",
                paste(colnames(wide)[out_of_range_min], collapse = ", ")))
@@ -98,14 +114,14 @@ rasch_wide <- function(wide,
     pairs <- pairs[items, items, drop = FALSE]
   } else {
     wide2 <- wide
-    wide2[is.na(wide2)] <- 9L
-    pairs <- t(wide2 == 0L) %*% (wide2 == 1L)
+    wide2[is.na(wide2)] <- 9
+    pairs <- crossprod(wide2 == 0, wide2 == 1)
     rm("wide2")
   }
 
   # Identify orphans (zero counts) and stop
   orphans <- NULL
-  flags <- rowSums(pairs) == 0L
+  flags <- rowSums(pairs) == 0
   if (any(flags)) {
     orphans <- dimnames(pairs)[[1L]][flags]
     cat("Orphans found: ", orphans, "\n")

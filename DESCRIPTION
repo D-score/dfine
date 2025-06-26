@@ -28,7 +28,8 @@ Depends:
 Imports:
     Matrix,
     stats
-Suggests: 
+Suggests:
+    matrixStats,
     rmarkdown
 License: MIT + file LICENSE
 Encoding: UTF-8

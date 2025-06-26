@@ -50,11 +50,14 @@ rasch_long <- function(long,
   }
   long <- long[long[[item_var]] %in% items, , drop = FALSE]
 
-  # Quick out of range check
-  if (max(long[[response_var]], na.rm = TRUE) > 1)
+  # Check 0/1 range
+  x_range <- range(long[[response_var]], na.rm = TRUE)
+  if (x_range[2] > 1)
     stop("Some items have scores > 1")
-  if (max(long[[response_var]], na.rm = TRUE) < 0)
+  if (x_range[1] < 0)
     stop("Some items have scores < 0")
+
+  # Check for duplicate item names
   if (anyDuplicated(items))
     stop("Duplicate item names found")
 
