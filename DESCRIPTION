@@ -23,6 +23,15 @@ Description: Tools to define uni-dimensional measurement scales
     foundation, dfine enables meaningful comparison and integration of data 
     across diverse contexts, paving the way for a globally accepted measurement
     scale independent of specific instruments.
+Depends: 
+    R (>= 4.1.0)
+Imports:
+    Matrix,
+    stats
+Suggests: 
+    rmarkdown
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
