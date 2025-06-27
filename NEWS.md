@@ -1,5 +1,7 @@
+# dfine 0.3.0
 
-* Adds `item_var` and `reponse_var` to list returned from `rasch()`
+* Adds new function `calculate_dmodel()` which works with both long and wide data
+* Adds `item_var`, `reponse_var`, `ability_var` to list returned from `rasch()`
 * Makes 0/1 range checks faster in `rasch()`
 
 # dfine 0.2.0
