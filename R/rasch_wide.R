@@ -36,6 +36,7 @@
 #' }
 #' @noRd
 rasch_wide <- function(wide,
+                       visit_var = c("subjid", "agedays"),
                        items = NULL,
                        equate = NULL,
                        b_fixed = NULL,
@@ -129,7 +130,7 @@ rasch_wide <- function(wide,
 
   # Initialize
   p <- colMeans(wide, na.rm = TRUE)
-  N <- colSums(1 - is.na(wide))
+  n <- colSums(1 - is.na(wide))
   I <- ncol(wide)
   if (is.null(b_init)) b_init <- -stats::qlogis(p)
   b <- b_init
@@ -164,7 +165,7 @@ rasch_wide <- function(wide,
           pos <- match(equate[[i]], names(eps))
           if (anyNA(pos))
             cat("\n Equate ", names(equate)[i], "  Item not found: ", equate[[i]][is.na(pos)])
-          eps[pos] <- weighted.mean(x = eps[pos], w = N[pos])
+          eps[pos] <- weighted.mean(x = eps[pos], w = n[pos])
         }
       }
 
@@ -188,14 +189,15 @@ rasch_wide <- function(wide,
       iter <- iter + 1
     }
   }
-  item <- data.frame("N" = N,
+  item <- data.frame("n" = n,
                      "p" = p ,
                      "b" = log(eps))
 
   res <- list(items = items,
-              visit_var = NULL,
+              visit_var = visit_var,
               item_var = NULL,
               response_var = NULL,
+              ability_var = "d",
               shape = "wide",
               equate = equate,
               b_fixed = b_fixed,

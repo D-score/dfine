@@ -27,10 +27,13 @@
 #' @param items Character vector with item names. If not specified,
 #' all columns in the data are included as items (for wide shape) or
 #' all items in the item column are included (for long shape).
-#' @param equate Optional list with elements. Each list element specifies
-#' a character vector of names of items that should receive identical difficulty
-#' estimates. The default (\code{NULL}) indicates that difficulty estimates
-#' are not restricted to be identical.
+#' @param equate A named list of active equates. Each list element specifies
+#' a vector of item names belonging to the same equate group. The name
+#' of the list element is the equate group name.
+#' The method restricts the difficulty estimates of items within an
+#' active equate to be identical. Note that a given item should appear
+#' only once in an equate group. The default `equate = NULL` does
+#' not to restrict the solution.
 #' @param b_fixed Numeric, named vector used for fixing the item parameter
 #' estimate to a specific value. The names of the vector indicate
 #' the item name to which the fixed value applies.
@@ -73,6 +76,7 @@
 #'  unique visits.
 #' - `item_var`: The name of the variable containing item names.
 #' - `response_var`: The name of the variable containing item responses.
+#' - `ability_var`: The name of the ability variable (e.g, `"dscore"`)
 #' - `shape`: The shape of the data, either `"wide"` or `"long"`.
 #' - `b_fixed`: The `b_fixed` argument values.
 #' - `equate`: The `equate` argument values.
@@ -134,6 +138,7 @@ rasch <- function(data,
 
   if (shape == "wide")
     results <- rasch_wide(wide = data,
+                          visit_var = visit_var,
                           items = items,
                           equate = equate,
                           b_fixed = b_fixed,
@@ -162,5 +167,6 @@ rasch <- function(data,
   else
     stop("Unknown shape: ", shape)
 
+  results$call <- call
   return(results)
 }

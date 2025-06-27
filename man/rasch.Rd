@@ -54,10 +54,13 @@ the name of the column containing responses. The default is
 all columns in the data are included as items (for wide shape) or
 all items in the item column are included (for long shape).}
 
-\item{equate}{Optional list with elements. Each list element specifies
-a character vector of names of items that should receive identical difficulty
-estimates. The default (\code{NULL}) indicates that difficulty estimates
-are not restricted to be identical.}
+\item{equate}{A named list of active equates. Each list element specifies
+a vector of item names belonging to the same equate group. The name
+of the list element is the equate group name.
+The method restricts the difficulty estimates of items within an
+active equate to be identical. Note that a given item should appear
+only once in an equate group. The default \code{equate = NULL} does
+not to restrict the solution.}
 
 \item{b_fixed}{Numeric, named vector used for fixing the item parameter
 estimate to a specific value. The names of the vector indicate
@@ -98,6 +101,7 @@ item parameters were estimated.
 unique visits.
 \item \code{item_var}: The name of the variable containing item names.
 \item \code{response_var}: The name of the variable containing item responses.
+\item \code{ability_var}: The name of the ability variable (e.g, \code{"dscore"})
 \item \code{shape}: The shape of the data, either \code{"wide"} or \code{"long"}.
 \item \code{b_fixed}: The \code{b_fixed} argument values.
 \item \code{equate}: The \code{equate} argument values.
