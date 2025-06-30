@@ -1,7 +1,7 @@
 Package: dfine
 Type: Package
 Title: Tools for Defining Developmental Scales in Early Childhood
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: c(
     person(
       "Stef", "van Buuren",
