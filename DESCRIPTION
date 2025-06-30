@@ -28,6 +28,7 @@ Depends:
 Imports:
     dplyr,
     dscore,
+    ggplot2,
     Matrix,
     stats,
     stringi,
