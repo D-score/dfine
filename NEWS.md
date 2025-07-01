@@ -1,3 +1,5 @@
+# dfine 0.5.0
+
 - Moves `scripts/plot_p_a.R` to the `gsedscripts` package
 
 # dfine 0.4.0
