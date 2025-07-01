@@ -1,3 +1,5 @@
+- Moves `scripts/plot_p_a.R` to the `gsedscripts` package
+
 # dfine 0.4.0
 
 - Adds `scripts/plot_p_a.R` to plot the passing rates by age for the -still provisional- GSED phase 1 & 2 data
