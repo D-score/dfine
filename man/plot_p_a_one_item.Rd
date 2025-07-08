@@ -15,9 +15,9 @@ plot_p_a_one_item(
   i = 0,
   min_n = 10,
   model_name = "",
-  x.limits = c(0, 60),
-  x.breaks = seq(0, 60, 6),
-  x.label = "Age (in months)",
+  xlim = c(0, 60),
+  xbreaks = seq(0, 60, 6),
+  xlab = "Age (in months)",
   label.trunc = 60,
   col.manual = NULL,
   na.value = "grey"
@@ -53,13 +53,13 @@ Defaults to 10.}
 
 \item{model_name}{Optional model name used as annotation in the plot.}
 
-\item{x.limits}{Numeric vector of length 2 specifying x-axis limits
+\item{xlim}{Numeric vector of length 2 specifying x-axis limits
 (in months). Defaults to \code{c(0, 60)}.}
 
-\item{x.breaks}{Sequence of breaks for the x-axis. Defaults to
+\item{xbreaks}{Sequence of breaks for the x-axis. Defaults to
 \code{seq(0, 60, 6)}.}
 
-\item{x.label}{Label for the x-axis. Defaults to \code{"Age (in months)"}.}
+\item{xlab}{Label for the x-axis. Defaults to \code{"Age (in months)"}.}
 
 \item{label.trunc}{Maximum length of the item label to display.}
 

@@ -1,4 +1,4 @@
-#' Plot probability by age, all items
+#' Plot probability by D-score, all items
 #'
 #' This function produces a canned \code{ggplot} object.
 #' @inheritParams rasch
@@ -8,14 +8,19 @@
 #' @param x_var Variable representing the continuous x-axis
 #' (e.g., age in months, or D-score).
 #' @param model_name A string with the model name, used in the plot title.
+#' @param xlim Numeric vector of length 2 specifying x-axis limits
+#'   (in months). Defaults to `c(0, 80)`.
+#' @param xbreaks Sequence of breaks for the x-axis.
 #' @param \dots Additional parameters passed down to \code{plot_p_a_one_item()}.
 #' @return List of \code{ggplot} objects
 #' @export
-plot_p_a_item <- function(pass,
+plot_p_d_item <- function(pass,
                           item_var = "item",
                           items = NULL,
-                          x_var = "agemos",
+                          x_var = "d",
                           model_name = "",
+                          xlim = c(0, 100),
+                          xbreaks = seq(xlim[1], xlim[2], diff(xlim)/10),
                           ...) {
 
   # pre-allocate list of ggplots
@@ -25,6 +30,8 @@ plot_p_a_item <- function(pass,
   plot_list <- vector("list", length(items))
   names(plot_list) <- items
 
+  x.label <- paste("Ability (D-score) ", model_name)
+
   # loop over plots
   for (i in seq_along(plot_list)) {
     cat("Item: ", as.character(i), items[i], "\n")
@@ -32,8 +39,10 @@ plot_p_a_item <- function(pass,
                                         item_var = item_var,
                                         by_value = items[i],
                                         x_var = x_var,
+                                        xlab = x.label,
                                         i = i,
-                                        model_name = model_name,
+                                        xlim = xlim,
+                                        xbreaks = xbreaks,
                                         ...)
   }
 

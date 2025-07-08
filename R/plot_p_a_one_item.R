@@ -11,19 +11,19 @@
 #' @param data_rug Optional data frame of individual responses to the item,
 #'   used to add rug plots. Should include `item`, `age`/`dscore`,
 #'   `response` and `cohort`.
-#' @param by_var Variable by which to group the data for plotting.
 #' @param x_var Variable representing the continuous x-axis
 #' (e.g., age in months, or D-score).
+#' @param by_var Variable by which to group the data for plotting.
 #' @param by_value Value of the item to filter and plot.
 #' @param i Item index or number (used for annotation).
 #' @param min_n Minimum number of observations required to include a point.
 #'   Defaults to 10.
 #' @param model_name Optional model name used as annotation in the plot.
-#' @param x.limits Numeric vector of length 2 specifying x-axis limits
+#' @param xlim Numeric vector of length 2 specifying x-axis limits
 #'   (in months). Defaults to `c(0, 60)`.
-#' @param x.breaks Sequence of breaks for the x-axis. Defaults to
+#' @param xbreaks Sequence of breaks for the x-axis. Defaults to
 #'   `seq(0, 60, 6)`.
-#' @param x.label Label for the x-axis. Defaults to `"Age (in months)"`.
+#' @param xlab Label for the x-axis. Defaults to `"Age (in months)"`.
 #' @param label.trunc Maximum length of the item label to display.
 #' @param col.manual Optional named vector of manual colors by `cohort`.
 #'   If `NULL`, colors are obtained using `get_palette()`.
@@ -41,9 +41,9 @@ plot_p_a_one_item <- function(pass,
                               i = 0,
                               min_n = 10,
                               model_name = "",
-                              x.limits = c(0, 60),
-                              x.breaks = seq(0, 60, 6),
-                              x.label = "Age (in months)",
+                              xlim = c(0, 60),
+                              xbreaks = seq(0, 60, 6),
+                              xlab = "Age (in months)",
                               label.trunc = 60,
                               col.manual = NULL,
                               na.value = "grey") {
@@ -65,7 +65,11 @@ plot_p_a_one_item <- function(pass,
   if (model_name != "") model_name <- paste("-", model_name)
 
   # Set colors
-  present_studies <- unique(data_plot[[by_var]])
+  if (!is.null(data_rug) && nrow(data_rug) > 0) {
+    present_studies <- unique(data_rug[[by_var]])
+  } else {
+    present_studies <- unique(data_plot[[by_var]])
+  }
   col.manual <- col.manual[names(col.manual) %in% present_studies]
   missing_studies <- setdiff(present_studies, names(col.manual))
   if (length(missing_studies) > 0L) {
@@ -86,9 +90,9 @@ plot_p_a_one_item <- function(pass,
     )
   ) +
     scale_x_continuous(
-      name = x.label,
-      limits = x.limits,
-      breaks = x.breaks
+      name = xlab,
+      limits = xlim,
+      breaks = xbreaks
     ) +
     scale_y_continuous(
       name = "% pass",
