@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dfine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
       </span>
     </div>
 
@@ -47,7 +47,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_p_a_item</span><span class="op">(</span><span class="va">pass</span>, item_var <span class="op">=</span> <span class="st">"item"</span>, items <span class="op">=</span> <span class="cn">NULL</span>, model_name <span class="op">=</span> <span class="st">""</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_p_a_item</span><span class="op">(</span></span>
+<span>  <span class="va">pass</span>,</span>
+<span>  item_var <span class="op">=</span> <span class="st">"item"</span>,</span>
+<span>  items <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  x_var <span class="op">=</span> <span class="st">"agemos"</span>,</span>
+<span>  model_name <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -69,6 +76,11 @@ name of the column containing item names. The default is <code>item_var = "item"
 <dd><p>Character vector with item names. If not specified,
 all columns in the data are included as items (for wide shape) or
 all items in the item column are included (for long shape).</p></dd>
+
+
+<dt id="arg-x-var">x_var<a class="anchor" aria-label="anchor" href="#arg-x-var"></a></dt>
+<dd><p>Variable representing the continuous x-axis
+(e.g., age in months, or D-score).</p></dd>
 
 
 <dt id="arg-model-name">model_name<a class="anchor" aria-label="anchor" href="#arg-model-name"></a></dt>

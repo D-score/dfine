@@ -19,7 +19,7 @@ optionally including individual-level responses as rug plots."><!-- mathjax --><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dfine</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
       </span>
     </div>
 
@@ -62,9 +62,9 @@ optionally including individual-level responses as rug plots.</p>
 <span>  i <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  min_n <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  model_name <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  x.limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">60</span><span class="op">)</span>,</span>
-<span>  x.breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">60</span>, <span class="fl">6</span><span class="op">)</span>,</span>
-<span>  x.label <span class="op">=</span> <span class="st">"Age (in months)"</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">60</span><span class="op">)</span>,</span>
+<span>  xbreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">60</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Age (in months)"</span>,</span>
 <span>  label.trunc <span class="op">=</span> <span class="fl">60</span>,</span>
 <span>  col.manual <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.value <span class="op">=</span> <span class="st">"grey"</span></span>
@@ -124,17 +124,17 @@ Defaults to 10.</p></dd>
 <dd><p>Optional model name used as annotation in the plot.</p></dd>
 
 
-<dt id="arg-x-limits">x.limits<a class="anchor" aria-label="anchor" href="#arg-x-limits"></a></dt>
+<dt id="arg-xlim">xlim<a class="anchor" aria-label="anchor" href="#arg-xlim"></a></dt>
 <dd><p>Numeric vector of length 2 specifying x-axis limits
 (in months). Defaults to <code>c(0, 60)</code>.</p></dd>
 
 
-<dt id="arg-x-breaks">x.breaks<a class="anchor" aria-label="anchor" href="#arg-x-breaks"></a></dt>
+<dt id="arg-xbreaks">xbreaks<a class="anchor" aria-label="anchor" href="#arg-xbreaks"></a></dt>
 <dd><p>Sequence of breaks for the x-axis. Defaults to
 <code>seq(0, 60, 6)</code>.</p></dd>
 
 
-<dt id="arg-x-label">x.label<a class="anchor" aria-label="anchor" href="#arg-x-label"></a></dt>
+<dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
 <dd><p>Label for the x-axis. Defaults to <code>"Age (in months)"</code>.</p></dd>
 
 
