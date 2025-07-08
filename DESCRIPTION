@@ -35,7 +35,9 @@ Imports:
     tidyr
 Suggests:
     matrixStats,
-    rmarkdown
+    RColorBrewer,
+    rmarkdown,
+    usethis
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

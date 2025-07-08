@@ -1,3 +1,5 @@
+- Adds built-in color palettes and `get_palette()` function to retrieve them
+
 # dfine 0.6.0
 
 - Adds `plot_p_d_item()` for plotting pass curves against ability

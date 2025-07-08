@@ -2,6 +2,7 @@
 
 S3method(print,dmodel)
 export(calculate_dmodel)
+export(get_palette)
 export(plot_p_a_item)
 export(plot_p_a_one_item)
 export(plot_p_d_item)
