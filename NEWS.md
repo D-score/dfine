@@ -1,3 +1,7 @@
+# dfine 0.6.0
+
+- Adds `plot_p_d_item()` for plotting pass curves against ability
+
 # dfine 0.5.0
 
 - Moves `scripts/plot_p_a.R` to the `gsedscripts` package
