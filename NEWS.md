@@ -1,3 +1,6 @@
+# dfine 0.7.0
+
+- Repairs bug in `plot_p_a_one_item()` to allow for both `x_var = "d"` and `x_var = "a"`
 - Adds built-in color palettes and `get_palette()` function to retrieve them
 
 # dfine 0.6.0
