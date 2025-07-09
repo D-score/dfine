@@ -83,7 +83,7 @@ plot_p_a_one_item <- function(pass,
   plot <- ggplot(
     data = data_plot,
     mapping = aes(
-      x = .data$a,
+      x = .data[[x_var]],
       y = .data$p,
       group = !!sym(by_var),
       colour = !!sym(by_var)
