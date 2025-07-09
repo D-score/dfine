@@ -78,6 +78,20 @@ calculate_dmodel <- function(data,
                       values = anchors, items = names(anchors))
     transform <- calculate_transform(original = -fit$betapar, transformed = tau)
   } else {
+    if (transform == "auto") {
+      # auto: approximate published key
+      tau_new <- -fit$betapar
+      tau_old <- get_tau(items = items, key = "gsed2406")
+      if (length(tau_new) != length(tau_old)) {
+        stop("The 'auto' transform requires the same number of items in the model and in the item bank.")
+      }
+      calib <- lm(tau_old ~ tau_new, data.frame(tau_new = tau_new, tau_old = tau_old))
+      transform <- coef(calib)
+    } else if (is.numeric(transform) && length(transform) == 2L) {
+      transform <- calculate_transform(original = -fit$betapar, transformed = tau)
+    } else if (length(transform) != 2L) {
+      stop("The 'transform' argument must be a vector of length 2.")
+    }
     # update only tau
     tau <- transform[1L] + transform[2L] * -fit$betapar
   }
