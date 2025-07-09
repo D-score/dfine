@@ -30,6 +30,8 @@ Imports:
     dscore,
     ggplot2,
     Matrix,
+    rlang,
+    plotly,
     stats,
     stringi,
     tidyr

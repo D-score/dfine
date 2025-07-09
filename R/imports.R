@@ -12,6 +12,8 @@
 #'                        scale_x_continuous scale_y_continuous
 #'                        theme unit
 #' @importFrom Matrix     sparseMatrix
+#' @importFrom plotly     plotly layout
+#' @importFrom rlang      eval_tidy sym
 #' @importFrom stats      coef lm na.omit plogis predict weighted.mean
 #' @importFrom stringi    stri_order stri_sort
 #' @importFrom tidyr      drop_na pivot_longer pivot_wider

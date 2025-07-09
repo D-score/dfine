@@ -1,4 +1,4 @@
-
+- Adds `plot_tau_constrast()` to generate an interactive `plotly` figure to compare two sets of tau estimates
 - Adds a `transform = "auto"` option to the `calculate_dmodel()` arguments
 
 # dfine 0.7.0
