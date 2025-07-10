@@ -9,7 +9,7 @@ plot_tau_contrast(
   model_old,
   detrended = TRUE,
   ylim = c(-10, 10),
-  colors = c("#009E73", "#56B4E9", "#999999"),
+  colors = c("#0072B2", "#D55E00", "#999999"),
   fontcolor = "white"
 )
 }
