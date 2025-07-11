@@ -6,7 +6,7 @@
 #'                        get_tau order_itemnames sort_itemnames
 #' @importFrom ggplot2    aes aes_string annotate
 #'                        coord_cartesian element_rect
-#'                        ggplot geom_rug geom_line geom_point
+#'                        ggplot ggsave geom_rug geom_line geom_point
 #'                        guides guide_legend
 #'                        scale_colour_manual
 #'                        scale_x_continuous scale_y_continuous
