@@ -1,3 +1,5 @@
+- Improves `NULL` handling of `plot_pass()` arguments
+
 # dfine 0.9.0
 
 - Replaces `plot_p_a_item()`, `plot_p_a_one_item()` and `plot_p_d_item()` by `plot_pass()`

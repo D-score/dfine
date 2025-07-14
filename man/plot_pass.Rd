@@ -56,12 +56,11 @@ Defaults to 10.}
 \item{model_name}{Optional model name used as annotation in the plot.}
 
 \item{xlim}{Numeric vector of length 2 specifying x-axis limits
-(in months). Defaults to \code{c(0, 60)}.}
+(in months).}
 
-\item{xbreaks}{Sequence of breaks for the x-axis. Defaults to
-\code{seq(0, 60, 6)}.}
+\item{xbreaks}{Sequence of breaks for the x-axis.}
 
-\item{xlab}{Label for the x-axis. Defaults to \code{"Age (in months)"}.}
+\item{xlab}{Label for the x-axis.}
 
 \item{label_trunc}{Maximum length of the item label to display.}
 

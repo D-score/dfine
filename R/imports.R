@@ -1,6 +1,7 @@
-#' @importFrom dplyr      .data across all_of filter group_by
+#' @importFrom dplyr      .data across all_of any_of
+#'                        arrange distinct filter group_by if_else
 #'                        left_join mutate n one_of select summarize
-#'                        sym
+#'                        starts_with sym
 #' @importFrom dscore     decompose_itemnames dscore get_itemnames
 #'                        get_itemtable get_labels get_reference
 #'                        get_tau order_itemnames sort_itemnames

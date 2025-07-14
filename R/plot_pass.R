@@ -16,10 +16,9 @@
 #' cohort).
 #' @param model_name Optional model name used as annotation in the plot.
 #' @param xlim Numeric vector of length 2 specifying x-axis limits
-#'   (in months). Defaults to `c(0, 60)`.
-#' @param xbreaks Sequence of breaks for the x-axis. Defaults to
-#'   `seq(0, 60, 6)`.
-#' @param xlab Label for the x-axis. Defaults to `"Age (in months)"`.
+#'   (in months).
+#' @param xbreaks Sequence of breaks for the x-axis.
+#' @param xlab Label for the x-axis.
 #' @param label_trunc Maximum length of the item label to display.
 #' @param col_manual Optional named vector of manual colors by `cohort`.
 #'   If `NULL`, colors are obtained using `get_palette()`.
@@ -59,13 +58,13 @@ plot_pass <- function(pass,
   }
 
   if (x_var == "a") {
-    xlim <- c(0, 60)
-    xbreaks <- seq(0, 60, 6)
-    xlab <- "Age (in months)"
+    xlim <- xlim %||% c(0, 60)
+    xbreaks <- xbreaks %||% seq(0, 60, 6)
+    xlab <- xlab %||% "Age (in months)"
   } else {
-    xlim <- c(0, 100)
-    xbreaks <- seq(0, 100, 10)
-    xlab <- "Ability (D-score)"
+    xlim <- xlim %||% c(0, 100)
+    xbreaks <- xbreaks %||% seq(0, 100, 10)
+    xlab <- xlab %||% "Ability (D-score)"
   }
 
   plot_list <- vector("list", length(items))
