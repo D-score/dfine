@@ -1,3 +1,5 @@
+# dfine 0.10.0
+
 - Improves `NULL` handling of `plot_pass()` arguments
 
 # dfine 0.9.0
