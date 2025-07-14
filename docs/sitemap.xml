@@ -5,10 +5,12 @@
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
+<url><loc>/reference/calculate_cohort.html</loc></url>
 <url><loc>/reference/calculate_dmodel.html</loc></url>
 <url><loc>/reference/get_palette.html</loc></url>
 <url><loc>/reference/gsed_palettes.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/plot_d_a_cohort.html</loc></url>
 <url><loc>/reference/plot_p_a_item.html</loc></url>
 <url><loc>/reference/plot_p_a_one_item.html</loc></url>
 <url><loc>/reference/plot_p_d_item.html</loc></url>
