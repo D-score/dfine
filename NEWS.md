@@ -1,3 +1,7 @@
+# dfine 0.11.0
+
+- Adds `plot_d_a_cohort()` and `calculate_cohort()`
+
 # dfine 0.10.0
 
 - Improves `NULL` handling of `plot_pass()` arguments
