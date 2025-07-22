@@ -22,3 +22,4 @@ calculate_cohort <- function(subjid) {
 
   return(cohort)
 }
+

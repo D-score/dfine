@@ -23,7 +23,13 @@ plot_tau_contrast <- function(model,
 
   items <- model$itembank$item
   itembank_old <- model_old$itembank |>
-    filter(.data$item %in% items)
+    dplyr::mutate(
+      item = dplyr::recode(
+        .data$item,
+        gpaclc088 = "gpaclc089",
+        gpasec089 = "gpasec088"),
+      item = rename_vector(.data$item, lexin = "gsed2", lexout = "gsed4")) |>
+    dplyr::filter(.data$item %in% items)
   itembank_old <- itembank_old[match(items, itembank_old$item), ]
   stopifnot(all(itembank_old$item == items))
 
@@ -38,8 +44,8 @@ plot_tau_contrast <- function(model,
 
   # Assign colors based on item prefix
   taus$color <- ifelse(
-    startsWith(taus$item, "gpa"), colors[1L],
-    ifelse(startsWith(taus$item, "gto"), colors[2L], colors[3L])
+    startsWith(taus$item, "sf"), colors[1L],
+    ifelse(startsWith(taus$item, "lf"), colors[2L], colors[3L])
   )
 
   taus$tooltip <- paste0(

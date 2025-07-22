@@ -6,6 +6,8 @@
 \usage{
 plot_d_a_cohort(
   data,
+  daz = FALSE,
+  show_smooth = FALSE,
   file = NULL,
   col_manual = NULL,
   model_name = NULL,
@@ -16,11 +18,16 @@ plot_d_a_cohort(
   ylim = c(0, 90),
   xbreaks = seq(0, 60, 12),
   ybreaks = seq(0, 90, 20),
+  smooth_line_color = "grey",
   device = "pdf"
 )
 }
 \arguments{
 \item{data}{Data on which model was fitted}
+
+\item{daz}{Logical indicating whether to plot D-score or DAZ.}
+
+\item{show_smooth}{Logical indicating whether to show a smoothed line}
 
 \item{file}{A filename to which the pdf is saved. If not specified, no
 plot is saved.}
@@ -42,6 +49,8 @@ plot is saved.}
 \item{xbreaks}{Breaks for the x-axis.}
 
 \item{ybreaks}{Breaks for the y-axis.}
+
+\item{smooth_line_color}{Color of the smoothed line.}
 
 \item{device}{Device to use. Can be either be a device function (e.g. png()),
 or one of "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp",

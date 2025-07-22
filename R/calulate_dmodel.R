@@ -81,10 +81,16 @@ calculate_dmodel <- function(data,
     if (transform == "auto") {
       # auto: approximate published key
       tau_new <- -fit$betapar
-      tau_old <- get_tau(items = items, key = "gsed2406")
+      # we do not yet have the tau for gsed4, so we use gsed3
+      items_g3 <- rename_vector(names(tau_new), lexin = "gsed4", lexout = "gsed3")
+      tau_old <- get_tau(items = items_g3, key = "gsed2406")
+      names(tau_old) <- rename_vector(names(tau_old), lexin = "gsed3", lexout = "gsed4")
       if (length(tau_new) != length(tau_old)) {
         stop("The 'auto' transform requires the same number of items in the model and in the item bank.")
       }
+      # remove item Runs Well because that obtained an incorrect tau in Phase 1
+      tau_new <- tau_new[!names(tau_new) %in% "lfagmd036"]
+      tau_old <- tau_old[!names(tau_old) %in% "lfagmd036"]
       calib <- lm(tau_old ~ tau_new, data.frame(tau_new = tau_new, tau_old = tau_old))
       transform <- coef(calib)
     } else if (is.numeric(transform) && length(transform) == 2L) {
