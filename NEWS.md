@@ -1,3 +1,8 @@
+# dfine 0.12.0
+
+- Adds `daz`and `show_smooth` arguments to `plot_d_a_cohort()`
+- Adapt some routines to work with `gsed4` lexicon for better integration with published test materials
+
 # dfine 0.11.0
 
 - Adds `plot_d_a_cohort()` and `calculate_cohort()`
