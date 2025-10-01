@@ -24,28 +24,33 @@ plot_tau_contrast <- function(model,
   items <- model$itembank$item
   itembank_old <- model_old$itembank |>
     dplyr::mutate(
-      item = dplyr::recode(
-        .data$item,
-        gpaclc088 = "gpaclc089",
-        gpasec089 = "gpasec088"),
-      item = rename_vector(.data$item, lexin = "gsed2", lexout = "gsed4")) |>
+     item = dplyr::recode(  # we need this because old itembank may contain this reversed item
+       .data$item,
+       gpaclc088 = "gpaclc089",
+       gpasec089 = "gpasec088"),
+      item = rename_vector(.data$item, lexin = "gsed2", lexout = "gsed3")) |>
     dplyr::filter(.data$item %in% items)
-  itembank_old <- itembank_old[match(items, itembank_old$item), ]
-  stopifnot(all(itembank_old$item == items))
+  items_old <- itembank_old$item
+  items <- intersect(items, items_old)
+  itembank_old <- itembank_old[match(items, items_old), ]
+  itembank <- model$itembank |>
+    dplyr::filter(.data$item %in% items)
+  itemfit <- model$item_fit |>
+    dplyr::filter(.data$item %in% items)
 
   taus <- data.frame(
-    item = model$itembank$item,
-    tau_new = model$itembank$tau,
+    item = itembank$item,
+    tau_new = itembank$tau,
     tau_old = itembank_old$tau,
-    tau_diff = model$itembank$tau - itembank_old$tau,
-    infit = model$item_fit$infit,
-    outfit = model$item_fit$outfit,
-    label = strtrim(model$itembank$label, 60))
+    tau_diff = itembank$tau - itembank_old$tau,
+    infit = itemfit$infit,
+    outfit = itemfit$outfit,
+    label = strtrim(itembank$label, 60))
 
   # Assign colors based on item prefix
   taus$color <- ifelse(
-    startsWith(taus$item, "sf"), colors[1L],
-    ifelse(startsWith(taus$item, "lf"), colors[2L], colors[3L])
+    startsWith(taus$item, "gs1"), colors[1L],
+    ifelse(startsWith(taus$item, "gl1"), colors[2L], colors[3L])
   )
 
   taus$tooltip <- paste0(

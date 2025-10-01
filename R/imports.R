@@ -1,3 +1,4 @@
+#' @importFrom difR       genDichoDif
 #' @importFrom dplyr      .data across all_of any_of
 #'                        arrange case_when distinct filter group_by if_else
 #'                        left_join mutate n one_of select summarize
@@ -17,7 +18,7 @@
 #'                        theme unit
 #' @importFrom Matrix     sparseMatrix
 #' @importFrom plotly     plotly layout
-#' @importFrom rlang      eval_tidy sym
+#' @importFrom rlang      eval_tidy sym syms
 #' @importFrom stats      coef lm na.omit plogis predict weighted.mean
 #' @importFrom stringi    stri_extract_first_regex stri_order stri_sort
 #' @importFrom tidyr      drop_na pivot_longer pivot_wider
