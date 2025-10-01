@@ -84,7 +84,7 @@ plot_pass_item <- function(pass,
         ),
         position = "jitter",
         sides = "b",
-        size = 0.2
+        linewidth = 0.2
       ) +
       geom_rug(
         data = filter(data_rug, .data[[response_var]] == 1),
@@ -96,7 +96,7 @@ plot_pass_item <- function(pass,
         ),
         position = "jitter",
         sides = "t",
-        size = 0.2
+        linewidth = 0.2
       )
   }
 

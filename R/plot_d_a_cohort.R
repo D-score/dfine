@@ -127,7 +127,7 @@ plot_d_a_cohort <- function(data,
         se = FALSE,
         span = 0.75,
         color = smooth_line_color,
-        size = 1
+        linewidth = 1
       )
   }
 
