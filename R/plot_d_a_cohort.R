@@ -21,54 +21,57 @@
 #'  "svg" or "wmf" (windows only).
 #' @return A object of class \code{ggplot}
 #' @export
-plot_d_a_cohort <- function(data,
-                            daz = FALSE,
-                            show_smooth = FALSE,
-                            file = NULL,
-                            col_manual = NULL,
-                            model_name = NULL,
-                            ref_name = c("preliminary_standards", "phase1", "dutch", "gcdg", "none"),
-                            size = 0.5,
-                            shape = 1,
-                            xlim = c(0, 60),
-                            ylim = c(0, 90),
-                            xbreaks = seq(0, 60, 12),
-                            ybreaks = seq(0, 90, 20),
-                            smooth_line_color = "grey",
-                            device = "pdf") {
-
+plot_d_a_cohort <- function(
+  data,
+  daz = FALSE,
+  show_smooth = FALSE,
+  file = NULL,
+  col_manual = NULL,
+  model_name = NULL,
+  ref_name = c("preliminary_standards", "phase1", "dutch", "gcdg", "none"),
+  size = 0.5,
+  shape = 1,
+  xlim = c(0, 60),
+  ylim = c(0, 90),
+  xbreaks = seq(0, 60, 12),
+  ybreaks = seq(0, 90, 20),
+  smooth_line_color = "grey",
+  device = "pdf"
+) {
   ref_name <- match.arg(ref_name)
 
   # select data for reference layer
-  if (ref_name %in% c("preliminary_standards", "none"))
+  if (ref_name %in% c("preliminary_standards", "none")) {
     reference <- get_reference(population = "preliminary_standards") |>
       mutate(month = .data$age * 12) |>
       select(.data$month, .data$SDM2:.data$SDP2) |>
       filter(.data$month <= 42) |>
       pivot_longer(names_to = "centile", values_to = "d", cols = -.data$month)
-  if (ref_name %in% c("phase1"))
+  }
+  if (ref_name %in% c("phase1")) {
     reference <- get_reference(population = "phase1") |>
       mutate(month = .data$age * 12) |>
       select(.data$month, .data$SDM2:.data$SDP2) |>
       filter(.data$month <= 42) |>
       pivot_longer(names_to = "centile", values_to = "d", cols = -.data$month)
-  if (ref_name == "dutch")
+  }
+  if (ref_name == "dutch") {
     reference <- get_reference(population = "dutch") |>
       mutate(month = .data$age * 12) |>
       select("month", .data$SDM2:.data$SDP2) |>
       filter(.data$month <= 30) |>
       pivot_longer(names_to = "centile", values_to = "d", cols = -.data$month)
-  if (ref_name %in% c("gcdg"))
+  }
+  if (ref_name %in% c("gcdg")) {
     reference <- get_reference(population = "gcdg") |>
       mutate(month = .data$age * 12) |>
       select(.data$month, .data$SDM2:.data$SDP2) |>
       filter(.data$month <= 60) |>
       pivot_longer(names_to = "centile", values_to = "d", cols = -.data$month)
+  }
   if (daz) {
     references <- get_reference(population = ref_name) |>
-      mutate(month = .data$age * 12,
-             SDM2 = -2,
-             SDP2 = 2) |>
+      mutate(month = .data$age * 12, SDM2 = -2, SDP2 = 2) |>
       select(.data$month, .data$SDM2, .data$SDP2) |>
       filter(.data$month <= 60) |>
       pivot_longer(names_to = "centile", values_to = "d", cols = -.data$month)
@@ -82,19 +85,24 @@ plot_d_a_cohort <- function(data,
     ylim <- ylim %||% c(-4, 4)
     ybreaks <- ybreaks %||% seq(-3, 3, 1)
   }
-  color <- switch(ref_name,
-                  preliminary_standards = "skyblue",
-                  phase1 = "#C5EDDE",
-                  dutch = "grey",
-                  gcdg = "lightblue",
-                  none = "transparent")
+  color <- switch(
+    ref_name,
+    preliminary_standards = "skyblue",
+    phase1 = "#C5EDDE",
+    dutch = "grey",
+    gcdg = "lightblue",
+    none = "transparent"
+  )
 
-  plot <- ggplot(reference, aes(x = .data$month, y = .data$d, group = .data$centile)) +
-    scale_colour_manual(values = col_manual %||% get_palette("cohort"),
-                        na.value = "grey") +
-    scale_x_continuous("Age (in months)",
-                       limits = xlim,
-                       breaks = xbreaks) +
+  plot <- ggplot(
+    reference,
+    aes(x = .data$month, y = .data$d, group = .data$centile)
+  ) +
+    scale_colour_manual(
+      values = col_manual %||% get_palette("cohort"),
+      na.value = "grey"
+    ) +
+    scale_x_continuous("Age (in months)", limits = xlim, breaks = xbreaks) +
     scale_y_continuous(
       paste0(ylab, model_name, ")"),
       breaks = ybreaks,
@@ -137,7 +145,7 @@ plot_d_a_cohort <- function(data,
   n_facets <- length(unique(data$cohort))
   n_rows <- ceiling(n_facets / 4)
 
-  if (!is.null(file))
+  if (!is.null(file)) {
     ggsave(
       file,
       plot = plot,
@@ -145,5 +153,6 @@ plot_d_a_cohort <- function(data,
       width = 7,
       height = (7 / 4) * n_rows
     )
+  }
   invisible(plot)
 }

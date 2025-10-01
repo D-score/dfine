@@ -8,13 +8,14 @@
 #' @param fontcolor Character, color for the hover label font.
 #' @return A plotly object representing the tau contrast plot.
 #' @export
-plot_tau_contrast <- function(model,
-                              model_old,
-                              detrended = TRUE,
-                              ylim = c(-10, 10),
-                              colors = c("#0072B2", "#D55E00", "#999999"),
-                              fontcolor = "white") {
-
+plot_tau_contrast <- function(
+  model,
+  model_old,
+  detrended = TRUE,
+  ylim = c(-10, 10),
+  colors = c("#0072B2", "#D55E00", "#999999"),
+  fontcolor = "white"
+) {
   if (!inherits(model, "dmodel") || !inherits(model_old, "dmodel")) {
     stop("Both model and model_old must be of class 'dmodel'.")
   }
@@ -24,11 +25,14 @@ plot_tau_contrast <- function(model,
   items <- model$itembank$item
   itembank_old <- model_old$itembank |>
     dplyr::mutate(
-     item = dplyr::recode(  # we need this because old itembank may contain this reversed item
-       .data$item,
-       gpaclc088 = "gpaclc089",
-       gpasec089 = "gpasec088"),
-      item = rename_vector(.data$item, lexin = "gsed2", lexout = "gsed3")) |>
+      item = dplyr::recode(
+        # we need this because old itembank may contain this reversed item
+        .data$item,
+        gpaclc088 = "gpaclc089",
+        gpasec089 = "gpasec088"
+      ),
+      item = rename_vector(.data$item, lexin = "gsed2", lexout = "gsed3")
+    ) |>
     dplyr::filter(.data$item %in% items)
   items_old <- itembank_old$item
   items <- intersect(items, items_old)
@@ -45,22 +49,37 @@ plot_tau_contrast <- function(model,
     tau_diff = itembank$tau - itembank_old$tau,
     infit = itemfit$infit,
     outfit = itemfit$outfit,
-    label = strtrim(itembank$label, 60))
+    label = strtrim(itembank$label, 60)
+  )
 
   # Assign colors based on item prefix
   taus$color <- ifelse(
-    startsWith(taus$item, "gs1"), colors[1L],
+    startsWith(taus$item, "gs1"),
+    colors[1L],
     ifelse(startsWith(taus$item, "gl1"), colors[2L], colors[3L])
   )
 
   taus$tooltip <- paste0(
-    "<b>Item:</b> ", taus$item, "<br>",
-    "<b>Label:</b> ", taus$label, "<br>",
-    "<b>tau_old:</b> ", round(taus$tau_old, 3), "<br>",
-    "<b>tau_new:</b> ", round(taus$tau_new, 3), "<br>",
-    "<b>tau_dif:</b> ", round(taus$tau_diff, 3), "<br>",
-    "<b>infit: <b> ", round(taus$infit, 3), "<br>",
-    "<b>outfit:<b> ", round(taus$outfit, 3)
+    "<b>Item:</b> ",
+    taus$item,
+    "<br>",
+    "<b>Label:</b> ",
+    taus$label,
+    "<br>",
+    "<b>tau_old:</b> ",
+    round(taus$tau_old, 3),
+    "<br>",
+    "<b>tau_new:</b> ",
+    round(taus$tau_new, 3),
+    "<br>",
+    "<b>tau_dif:</b> ",
+    round(taus$tau_diff, 3),
+    "<br>",
+    "<b>infit: <b> ",
+    round(taus$infit, 3),
+    "<br>",
+    "<b>outfit:<b> ",
+    round(taus$outfit, 3)
   )
 
   ref_line <- if (detrended) {
@@ -110,7 +129,8 @@ plot_tau_contrast <- function(model,
     mode = 'markers',
     text = ~tooltip,
     hoverinfo = 'text',
-    marker = list(size = 8, color = ~ color)) |>
+    marker = list(size = 8, color = ~color)
+  ) |>
     plotly::layout(
       title = paste("tau", model$name),
       xaxis = list(title = model_old$name),

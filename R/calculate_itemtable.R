@@ -12,11 +12,12 @@
 #' @return A data frame with four columns and number of rows equal to
 #' \code{length(items)}.
 #' @noRd
-calculate_itemtable <- function(items = NULL,
-                                equatelist = NULL,
-                                itemtable = NULL,
-                                activenames = NULL) {
-
+calculate_itemtable <- function(
+  items = NULL,
+  equatelist = NULL,
+  itemtable = NULL,
+  activenames = NULL
+) {
   # subset items fetch itemtable, dynamic ("") or built-in (dscore, ddata)
   it <- dscore::get_itemtable(items = items, itemtable = itemtable)
 
@@ -27,16 +28,20 @@ calculate_itemtable <- function(items = NULL,
   }
 
   # validate equatelist
-  if (!is.list(equatelist))
+  if (!is.list(equatelist)) {
     stop("'equatelist' not a list")
+  }
   equatenames <- names(equatelist)
-  if (any(duplicated(equatenames)))
-    stop("'equatelist' has duplicate list names: ",
-         equatenames[duplicated(equatenames)])
+  if (any(duplicated(equatenames))) {
+    stop(
+      "'equatelist' has duplicate list names: ",
+      equatenames[duplicated(equatenames)]
+    )
+  }
   items_eq <- unlist(equatelist)
-  if (any(duplicated(items)))
-    stop("'equatelist' has duplicate items: ",
-         items_eq[duplicated(items_eq)])
+  if (any(duplicated(items))) {
+    stop("'equatelist' has duplicate items: ", items_eq[duplicated(items_eq)])
+  }
 
   # update to account for equate groups changed by user
   for (eq in equatenames) {

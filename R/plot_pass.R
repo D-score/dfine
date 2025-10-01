@@ -27,22 +27,23 @@
 #' @param na_value Color to use for missing values. Default is `"grey"`.
 #' @return A `ggplot` object.
 #' @export
-plot_pass <- function(pass,
-                      data_rug = NULL,
-                      items = NULL,
-                      item_var = "item",
-                      response_var = "response",
-                      x_var = "a",
-                      by_var = "cohort",
-                      min_n = 10,
-                      model_name = "",
-                      xlim = NULL,
-                      xbreaks = NULL,
-                      xlab = NULL,
-                      label_trunc = 60,
-                      col_manual = NULL,
-                      na_value = "grey") {
-
+plot_pass <- function(
+  pass,
+  data_rug = NULL,
+  items = NULL,
+  item_var = "item",
+  response_var = "response",
+  x_var = "a",
+  by_var = "cohort",
+  min_n = 10,
+  model_name = "",
+  xlim = NULL,
+  xbreaks = NULL,
+  xlab = NULL,
+  label_trunc = 60,
+  col_manual = NULL,
+  na_value = "grey"
+) {
   # pre-allocate list of ggplots
   if (is.null(items)) {
     items <- stri_sort(unique(pass[[item_var]]), numeric = TRUE)
@@ -73,22 +74,24 @@ plot_pass <- function(pass,
   # loop over plots
   for (i in seq_along(plot_list)) {
     cat("Item: ", as.character(i), items[i], "\n")
-    plot_list[[i]] <- plot_pass_item(pass = pass,
-                                     data_rug = data_rug,
-                                     by_value = items[i],
-                                     i = i,
-                                     item_var = item_var,
-                                     response_var = response_var,
-                                     x_var = x_var,
-                                     by_var = by_var,
-                                     min_n = min_n,
-                                     model_name = model_name,
-                                     xlim = xlim,
-                                     xbreaks = xbreaks,
-                                     xlab = xlab,
-                                     label_trunc = label_trunc,
-                                     col_manual = col_manual,
-                                     na_value = na_value)
+    plot_list[[i]] <- plot_pass_item(
+      pass = pass,
+      data_rug = data_rug,
+      by_value = items[i],
+      i = i,
+      item_var = item_var,
+      response_var = response_var,
+      x_var = x_var,
+      by_var = by_var,
+      min_n = min_n,
+      model_name = model_name,
+      xlim = xlim,
+      xbreaks = xbreaks,
+      xlab = xlab,
+      label_trunc = label_trunc,
+      col_manual = col_manual,
+      na_value = na_value
+    )
   }
 
   return(plot_list)

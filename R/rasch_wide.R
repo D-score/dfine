@@ -35,19 +35,21 @@
 #' fit3$item
 #' }
 #' @noRd
-rasch_wide <- function(wide,
-                       visit_var = c("subjid", "agedays"),
-                       items = NULL,
-                       equate = NULL,
-                       b_fixed = NULL,
-                       b_init = NULL,
-                       pairs = NULL,
-                       zerosum = FALSE,
-                       conv = .00001,
-                       maxiter = 3000,
-                       progress = FALSE,
-                       save_pairs = FALSE,
-                       save_wide = FALSE) {
+rasch_wide <- function(
+  wide,
+  visit_var = c("subjid", "agedays"),
+  items = NULL,
+  equate = NULL,
+  b_fixed = NULL,
+  b_init = NULL,
+  pairs = NULL,
+  zerosum = FALSE,
+  conv = .00001,
+  maxiter = 3000,
+  progress = FALSE,
+  save_pairs = FALSE,
+  save_wide = FALSE
+) {
   call <- match.call()
 
   # Set the items vector
@@ -58,21 +60,29 @@ rasch_wide <- function(wide,
     items <- colnames(wide)
   } else {
     if (any(!items %in% colnames(wide))) {
-      stop("Items not found: ",
-           paste(items[!items %in% colnames(wide)], collapse = ", "))
+      stop(
+        "Items not found: ",
+        paste(items[!items %in% colnames(wide)], collapse = ", ")
+      )
     }
   }
 
   # Check for duplicated item names
   if (any(duplicated(items))) {
-    stop("Duplicate item names found: ",
-         paste(items[duplicated(items)], collapse = ", "))
+    stop(
+      "Duplicate item names found: ",
+      paste(items[duplicated(items)], collapse = ", ")
+    )
   }
 
   # Select items from the data, convert to integer matrix
   wide <- as.matrix(wide[, items, drop = FALSE])
-  wide <- matrix(as.integer(wide), nrow = nrow(wide), ncol = ncol(wide),
-                 dimnames = list(rownames(wide), colnames(wide)))
+  wide <- matrix(
+    as.integer(wide),
+    nrow = nrow(wide),
+    ncol = ncol(wide),
+    dimnames = list(rownames(wide), colnames(wide))
+  )
 
   # # Check for values > 1
   # out_of_range_max <- sapply(wide, function(x) max(x, na.rm = TRUE) > 1)
@@ -93,15 +103,19 @@ rasch_wide <- function(wide,
   # Check max > 1
   out_of_range_max <- matrixStats::colMaxs(wide, na.rm = TRUE) > 1
   if (any(out_of_range_max)) {
-    stop(paste("Some items have scores > 1:",
-               paste(colnames(wide)[out_of_range_max], collapse = ", ")))
+    stop(paste(
+      "Some items have scores > 1:",
+      paste(colnames(wide)[out_of_range_max], collapse = ", ")
+    ))
   }
 
   # Check min < 0
   out_of_range_min <- matrixStats::colMins(wide, na.rm = TRUE) < 0
   if (any(out_of_range_min)) {
-    stop(paste("Some items have scores < 0:",
-               paste(colnames(wide)[out_of_range_min], collapse = ", ")))
+    stop(paste(
+      "Some items have scores < 0:",
+      paste(colnames(wide)[out_of_range_min], collapse = ", ")
+    ))
   }
 
   # Create pairs matrix
@@ -109,8 +123,10 @@ rasch_wide <- function(wide,
     pairs_items <- colnames(pairs)
     missing_items <- setdiff(items, pairs_items)
     if (length(missing_items) > 0L) {
-      stop(paste("The following items are missing from 'pairs':",
-                 paste(missing_items, collapse = ", ")))
+      stop(paste(
+        "The following items are missing from 'pairs':",
+        paste(missing_items, collapse = ", ")
+      ))
     }
     pairs <- pairs[items, items, drop = FALSE]
   } else {
@@ -132,7 +148,9 @@ rasch_wide <- function(wide,
   p <- colMeans(wide, na.rm = TRUE)
   n <- colSums(1 - is.na(wide))
   I <- ncol(wide)
-  if (is.null(b_init)) b_init <- -stats::qlogis(p)
+  if (is.null(b_init)) {
+    b_init <- -stats::qlogis(p)
+  }
   b <- b_init
   if (!is.null(b_fixed)) {
     b_fixed <- b_fixed[names(b_fixed) %in% names(b_init)]
@@ -152,7 +170,7 @@ rasch_wide <- function(wide,
       m1 <- matrix(eps0, I, I, byrow = TRUE) + matrix(eps0, I, I)
       g1 <- rowSums(nij / m1)
       eps <- rowSums(pairs) / g1
-      b <-  log(eps)
+      b <- log(eps)
 
       # put item parameter constraints
       if (!is.null(b_fixed)) {
@@ -163,8 +181,14 @@ rasch_wide <- function(wide,
       if (length(equate) > 0) {
         for (i in seq_along(equate)) {
           pos <- match(equate[[i]], names(eps))
-          if (anyNA(pos))
-            cat("\n Equate ", names(equate)[i], "  Item not found: ", equate[[i]][is.na(pos)])
+          if (anyNA(pos)) {
+            cat(
+              "\n Equate ",
+              names(equate)[i],
+              "  Item not found: ",
+              equate[[i]][is.na(pos)]
+            )
+          }
           eps[pos] <- weighted.mean(x = eps[pos], w = n[pos])
         }
       }
@@ -182,34 +206,43 @@ rasch_wide <- function(wide,
       }
       max.change <- max(dif)
       if (progress) {
-        cat("PL Iter.", iter, ": max. parm. change = ",
-            round( max.change , 6 ), "\n")
+        cat(
+          "PL Iter.",
+          iter,
+          ": max. parm. change = ",
+          round(max.change, 6),
+          "\n"
+        )
         flush.console()
       }
       iter <- iter + 1
     }
   }
-  item <- data.frame("n" = n,
-                     "p" = p ,
-                     "b" = log(eps))
+  item <- data.frame("n" = n, "p" = p, "b" = log(eps))
 
-  res <- list(items = items,
-              visit_var = visit_var,
-              item_var = NULL,
-              response_var = NULL,
-              ability_var = "d",
-              shape = "wide",
-              equate = equate,
-              b_fixed = b_fixed,
-              b_init = b_init,
-              orphans = orphans,
-              zerosum = zerosum,
-              iter = iter,
-              convergence = conv,
-              item = item,
-              betapar = -log(eps),
-              call = call)
-  if (save_pairs) res$pairs <- pairs
-  if (save_wide) res$wide <- wide
+  res <- list(
+    items = items,
+    visit_var = visit_var,
+    item_var = NULL,
+    response_var = NULL,
+    ability_var = "d",
+    shape = "wide",
+    equate = equate,
+    b_fixed = b_fixed,
+    b_init = b_init,
+    orphans = orphans,
+    zerosum = zerosum,
+    iter = iter,
+    convergence = conv,
+    item = item,
+    betapar = -log(eps),
+    call = call
+  )
+  if (save_pairs) {
+    res$pairs <- pairs
+  }
+  if (save_wide) {
+    res$wide <- wide
+  }
   return(res)
 }

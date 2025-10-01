@@ -38,13 +38,17 @@
 #'
 #' # dt <- calculate_DIF_table(data = data, items = items, group = group,
 #' #                          focal.names = focal.names)
-#'
 #' @export
-calculate_DIF_table <- function(data, items, group, score = "score",
-                                focal.names = NULL, thr = NULL,
-                                p.adjust.method = "holm",
-                                method = c("GMH", "genLogistic")) {
-
+calculate_DIF_table <- function(
+  data,
+  items,
+  group,
+  score = "score",
+  focal.names = NULL,
+  thr = NULL,
+  p.adjust.method = "holm",
+  method = c("GMH", "genLogistic")
+) {
   stopifnot(is.data.frame(data))
   stopifnot(length(items) > 0L)
   stopifnot(length(score) == 1L || length(score) == nrow(data))
@@ -60,27 +64,33 @@ calculate_DIF_table <- function(data, items, group, score = "score",
   }
 
   # check length of focal.names
-  stopifnot(length(focal.names) == 1L ||
-              length(focal.names) == length(unique(group)))
+  stopifnot(
+    length(focal.names) == 1L ||
+      length(focal.names) == length(unique(group))
+  )
 
   # MH-test for uniform DIF
   if ("GMH" %in% method) {
-    MH <- genDichoDif(Data = as.matrix(data[, items]),
-                      group = group,
-                      focal.names = focal.names,
-                      p.adjust.method = p.adjust.method,
-                      method = c("GMH"))
+    MH <- genDichoDif(
+      Data = as.matrix(data[, items]),
+      group = group,
+      focal.names = focal.names,
+      p.adjust.method = p.adjust.method,
+      method = c("GMH")
+    )
   } else {
     MH <- NULL
   }
 
   if ("genLogistic" %in% method) {
     # LR-test: unif + nunif
-    LR <- genDichoDif(Data = as.matrix(data[, items]),
-                      group = group,
-                      focal.names = focal.names,
-                      p.adjust.method = p.adjust.method,
-                      method = c("genLogistic"))
+    LR <- genDichoDif(
+      Data = as.matrix(data[, items]),
+      group = group,
+      focal.names = focal.names,
+      p.adjust.method = p.adjust.method,
+      method = c("genLogistic")
+    )
   } else {
     LR <- NULL
   }
@@ -90,30 +100,40 @@ calculate_DIF_table <- function(data, items, group, score = "score",
     thr <- MH$thr
   }
   MH_DIF <- cut(MH$GMH, breaks = c(-Inf, thr, Inf), labels = c("", "DIF"))
-  tmp <- data.frame(item = items,
-                    MH_stat = MH$GMH,
-                    MH_DIF = MH_DIF)
+  tmp <- data.frame(item = items, MH_stat = MH$GMH, MH_DIF = MH_DIF)
 
   # Derive Zumbo and Jodoin classifications from LR
-  LR_zumbo <- cut(LR$deltaR2,
-                  breaks = c(-Inf, 0.13, 0.26, Inf),
-                  labels = c(LETTERS[1:3]))
-  LR_jodoin <- cut(LR$deltaR2,
-                   breaks = c(-Inf, 0.035, 0.07, Inf),
-                   labels = c(LETTERS[1:3]))
+  LR_zumbo <- cut(
+    LR$deltaR2,
+    breaks = c(-Inf, 0.13, 0.26, Inf),
+    labels = c(LETTERS[1:3])
+  )
+  LR_jodoin <- cut(
+    LR$deltaR2,
+    breaks = c(-Inf, 0.035, 0.07, Inf),
+    labels = c(LETTERS[1:3])
+  )
 
   # create item table sorted by DIF
-  dif_table <- data.frame(num = 1:length(items),
-                          item = items,
-                          LR_stat = LR$genLogistik,
-                          LR_deltaR2 = LR$deltaR2,
-                          LR_zumbo = LR_zumbo,
-                          LR_jodoin = LR_jodoin)
+  dif_table <- data.frame(
+    num = 1:length(items),
+    item = items,
+    LR_stat = LR$genLogistik,
+    LR_deltaR2 = LR$deltaR2,
+    LR_zumbo = LR_zumbo,
+    LR_jodoin = LR_jodoin
+  )
   dif_table <- left_join(dif_table, tmp, by = c("item" = "item"))
-  dif_table <- dif_table[, c("num", "item",
-                             "MH_stat", "MH_DIF",
-                             "LR_stat", "LR_deltaR2", "LR_zumbo", "LR_jodoin")]
+  dif_table <- dif_table[, c(
+    "num",
+    "item",
+    "MH_stat",
+    "MH_DIF",
+    "LR_stat",
+    "LR_deltaR2",
+    "LR_zumbo",
+    "LR_jodoin"
+  )]
 
   return(dif_table)
-
 }

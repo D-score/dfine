@@ -9,10 +9,11 @@
 #' produced by \code{dscore::get_itemnames()}.
 #' @return A list of equates, possibly of length zero
 #' @noRd
-bind_equates <- function(equate,
-                         background_equate = FALSE,
-                         items = dscore::get_itemnames()) {
-
+bind_equates <- function(
+  equate,
+  background_equate = FALSE,
+  items = dscore::get_itemnames()
+) {
   # active equates from model
   list1 <- equate
   list2 <- background_equate
@@ -22,8 +23,7 @@ bind_equates <- function(equate,
     list2 <- NULL
     if (background_equate) {
       from <- NULL
-      it <- dscore::get_itemtable(items = items,
-                                  itemtable = from)
+      it <- dscore::get_itemtable(items = items, itemtable = from)
       list2 <- split(it$item, it$equate)
     }
   }

@@ -8,21 +8,23 @@
 #' names(long) <- c("id", "age", "item", "response")
 #' result <- rasch_long(long, response_var = "value")
 #' @noRd
-rasch_long <- function(long,
-                       visit_var = c("subjid", "agedays"),
-                       item_var = "item",
-                       response_var = "response",
-                       items = NULL,
-                       equate = NULL,
-                       b_fixed = NULL,
-                       b_init = NULL,
-                       zerosum = FALSE,
-                       pairs = NULL,
-                       conv = .00001,
-                       maxiter = 3000,
-                       progress = FALSE,
-                       save_pairs = FALSE,
-                       save_wide = FALSE) {
+rasch_long <- function(
+  long,
+  visit_var = c("subjid", "agedays"),
+  item_var = "item",
+  response_var = "response",
+  items = NULL,
+  equate = NULL,
+  b_fixed = NULL,
+  b_init = NULL,
+  zerosum = FALSE,
+  pairs = NULL,
+  conv = .00001,
+  maxiter = 3000,
+  progress = FALSE,
+  save_pairs = FALSE,
+  save_wide = FALSE
+) {
   call <- match.call()
 
   # check if the data is a data frame
@@ -52,14 +54,17 @@ rasch_long <- function(long,
 
   # Check 0/1 range
   x_range <- range(long[[response_var]], na.rm = TRUE)
-  if (x_range[2] > 1)
+  if (x_range[2] > 1) {
     stop("Some items have scores > 1")
-  if (x_range[1] < 0)
+  }
+  if (x_range[1] < 0) {
     stop("Some items have scores < 0")
+  }
 
   # Check for duplicate item names
-  if (anyDuplicated(items))
+  if (anyDuplicated(items)) {
     stop("Duplicate item names found")
+  }
 
   # Ensure item_var and response_var are character strings
   item_vals <- long[[item_var]]
@@ -119,7 +124,7 @@ rasch_long <- function(long,
       eps0 <- eps
       m1 <- matrix(eps0, k, k, byrow = TRUE) + matrix(eps0, k, k)
       eps <- rsp / rowSums(nij / m1)
-      b <-  log(eps)
+      b <- log(eps)
 
       # Put item parameter constraints
       if (!is.null(b_fixed)) {
@@ -130,9 +135,14 @@ rasch_long <- function(long,
       if (length(equate) > 0) {
         for (i in seq_along(equate)) {
           pos <- match(equate[[i]], names(eps))
-          if (anyNA(pos))
-            cat("\n Equate ", names(equate)[i],
-                "  Item not found: ", equate[[i]][is.na(pos)])
+          if (anyNA(pos)) {
+            cat(
+              "\n Equate ",
+              names(equate)[i],
+              "  Item not found: ",
+              equate[[i]][is.na(pos)]
+            )
+          }
           eps[pos] <- weighted.mean(x = eps[pos], w = n[pos])
         }
       }
@@ -150,35 +160,44 @@ rasch_long <- function(long,
       }
       max.change <- max(dif)
       if (progress) {
-        cat("PL Iter.", iter, ": max. parm. change = ",
-            round( max.change , 6 ), "\n")
+        cat(
+          "PL Iter.",
+          iter,
+          ": max. parm. change = ",
+          round(max.change, 6),
+          "\n"
+        )
         flush.console()
       }
       iter <- iter + 1
     }
   }
-  item <- data.frame("n" = n,
-                     "p" = p ,
-                     "b" =  log(eps))
+  item <- data.frame("n" = n, "p" = p, "b" = log(eps))
 
   # return fitted object
-  res <- list(items = items,
-              visit_var = visit_var,
-              item_var = item_var,
-              response_var = response_var,
-              ability_var = "d",
-              shape = "long",
-              equate = equate,
-              b_fixed = b_fixed,
-              b_init = b_init,
-              orphans = orphans,
-              zerosum = zerosum,
-              iter = iter,
-              convergence = conv,
-              item = item,
-              betapar = -log(eps),
-              call = call)
-  if (save_pairs) res$pairs <- pairs
-  if (save_wide) res$wide <- as.data.frame(as.matrix(sm))
+  res <- list(
+    items = items,
+    visit_var = visit_var,
+    item_var = item_var,
+    response_var = response_var,
+    ability_var = "d",
+    shape = "long",
+    equate = equate,
+    b_fixed = b_fixed,
+    b_init = b_init,
+    orphans = orphans,
+    zerosum = zerosum,
+    iter = iter,
+    convergence = conv,
+    item = item,
+    betapar = -log(eps),
+    call = call
+  )
+  if (save_pairs) {
+    res$pairs <- pairs
+  }
+  if (save_wide) {
+    res$wide <- as.data.frame(as.matrix(sm))
+  }
   return(res)
 }

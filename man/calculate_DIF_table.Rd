@@ -64,5 +64,4 @@ focal.names <- "Male"
 
 # dt <- calculate_DIF_table(data = data, items = items, group = group,
 #                          focal.names = focal.names)
-
 }

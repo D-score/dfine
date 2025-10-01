@@ -106,28 +106,32 @@
 #' errors of this pairwise estimation method are described in Zwinderman (1995).
 #' @rdname rasch
 #' @export
-rasch <- function(data,
-                  shape = c("auto", "wide", "long"),
-                  visit_var = c("subjid", "agedays"),
-                  item_var = "item",
-                  response_var = "response",
-                  items = NULL,
-                  equate = NULL,
-                  b_fixed = NULL,
-                  b_init = NULL,
-                  zerosum = FALSE,
-                  pairs = NULL,
-                  conv = .00001,
-                  maxiter = 3000,
-                  progress = FALSE,
-                  save_pairs = FALSE,
-                  save_wide = FALSE) {
+rasch <- function(
+  data,
+  shape = c("auto", "wide", "long"),
+  visit_var = c("subjid", "agedays"),
+  item_var = "item",
+  response_var = "response",
+  items = NULL,
+  equate = NULL,
+  b_fixed = NULL,
+  b_init = NULL,
+  zerosum = FALSE,
+  pairs = NULL,
+  conv = .00001,
+  maxiter = 3000,
+  progress = FALSE,
+  save_pairs = FALSE,
+  save_wide = FALSE
+) {
   call <- match.call()
   shape <- match.arg(shape)
 
   if (shape == "auto") {
-    if (is.data.frame(data) &&
-        all(c(visit_var, item_var, response_var) %in% colnames(data))) {
+    if (
+      is.data.frame(data) &&
+        all(c(visit_var, item_var, response_var) %in% colnames(data))
+    ) {
       shape <- "long"
     } else if (is.matrix(data) || is.data.frame(data)) {
       shape <- "wide"
@@ -136,36 +140,41 @@ rasch <- function(data,
     }
   }
 
-  if (shape == "wide")
-    results <- rasch_wide(wide = data,
-                          visit_var = visit_var,
-                          items = items,
-                          equate = equate,
-                          b_fixed = b_fixed,
-                          b_init = b_init,
-                          pairs = pairs,
-                          zerosum = zerosum,
-                          conv = conv,
-                          maxiter = maxiter,
-                          progress = progress,
-                          save_wide = save_wide)
-  else if (shape == "long")
-    results <- rasch_long(long = data,
-                          visit_var = visit_var,
-                          item_var = item_var,
-                          response_var = response_var,
-                          items = items,
-                          equate = equate,
-                          b_fixed = b_fixed,
-                          b_init = b_init,
-                          pairs = pairs,
-                          zerosum = zerosum,
-                          conv = conv,
-                          maxiter = maxiter,
-                          progress = progress,
-                          save_wide = save_wide)
-  else
+  if (shape == "wide") {
+    results <- rasch_wide(
+      wide = data,
+      visit_var = visit_var,
+      items = items,
+      equate = equate,
+      b_fixed = b_fixed,
+      b_init = b_init,
+      pairs = pairs,
+      zerosum = zerosum,
+      conv = conv,
+      maxiter = maxiter,
+      progress = progress,
+      save_wide = save_wide
+    )
+  } else if (shape == "long") {
+    results <- rasch_long(
+      long = data,
+      visit_var = visit_var,
+      item_var = item_var,
+      response_var = response_var,
+      items = items,
+      equate = equate,
+      b_fixed = b_fixed,
+      b_init = b_init,
+      pairs = pairs,
+      zerosum = zerosum,
+      conv = conv,
+      maxiter = maxiter,
+      progress = progress,
+      save_wide = save_wide
+    )
+  } else {
     stop("Unknown shape: ", shape)
+  }
 
   results$call <- call
   return(results)

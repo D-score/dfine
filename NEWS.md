@@ -3,6 +3,7 @@
 - Reverts `gsed4` --> `gsed3` in `calculate_dmodel()` and `plot_tau_contrast()`, so now all code uses the gsed3 lexicon
 - Moves `calculate_DIF_classification()` and `calculate_DIF_table()` from gsedscripts to the dfine package
 - Adds `difR` dependency
+- Reformats source files
 
 # dfine 0.12.0
 

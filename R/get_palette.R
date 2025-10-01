@@ -16,14 +16,9 @@
 #'  }
 #'@export
 get_palette <- function(
-    palet = c("cohort",
-              "study",
-              "country",
-              "domain",
-              "instrument",
-              "wave"),
-    na_color = "grey") {
-
+  palet = c("cohort", "study", "country", "domain", "instrument", "wave"),
+  na_color = "grey"
+) {
   palet <- match.arg(palet)
   utils::data("gsed_palettes", package = "dfine")
   p <- get0("gsed_palettes", mode = "list")

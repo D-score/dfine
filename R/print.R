@@ -7,8 +7,12 @@
 #'@method print dmodel
 #'@export
 print.dmodel <- function(x, ...) {
-  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),
-      "\n", sep = "")
+  cat(
+    "\nCall:\n",
+    paste(deparse(x$call), sep = "\n", collapse = "\n"),
+    "\n",
+    sep = ""
+  )
   cat("\nObject class      ", class(x))
   cat("\nName              ", x$name)
   cat("\nCreated           ", as.character(x$date))

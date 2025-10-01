@@ -1,20 +1,21 @@
-plot_pass_item <- function(pass,
-                           data_rug = NULL,
-                           item_var = "item",
-                           response_var = "response",
-                           x_var = "a",
-                           by_var = "cohort",
-                           by_value,
-                           i = 0,
-                           min_n = 10,
-                           model_name = "",
-                           xlim = c(0, 60),
-                           xbreaks = seq(0, 60, 6),
-                           xlab = "Age (in months)",
-                           label_trunc = 60,
-                           col_manual = NULL,
-                           na_value = "grey") {
-
+plot_pass_item <- function(
+  pass,
+  data_rug = NULL,
+  item_var = "item",
+  response_var = "response",
+  x_var = "a",
+  by_var = "cohort",
+  by_value,
+  i = 0,
+  min_n = 10,
+  model_name = "",
+  xlim = c(0, 60),
+  xbreaks = seq(0, 60, 6),
+  xlab = "Age (in months)",
+  label_trunc = 60,
+  col_manual = NULL,
+  na_value = "grey"
+) {
   if (is.null(col_manual)) {
     stop("Specify col_manual")
   }
@@ -29,7 +30,9 @@ plot_pass_item <- function(pass,
 
   the_label <- data_plot$label[1]
   the_label <- substr(the_label, 1L, label_trunc)
-  if (model_name != "") model_name <- paste("-", model_name)
+  if (model_name != "") {
+    model_name <- paste("-", model_name)
+  }
 
   # Set colors
   if (!is.null(data_rug) && nrow(data_rug) > 0) {
@@ -125,7 +128,9 @@ plot_pass_item <- function(pass,
     ) +
     annotate(
       "text",
-      x = 1, y = 7, hjust = 0,
+      x = 1,
+      y = 7,
+      hjust = 0,
       label = paste0(i, "  ", by_value),
       family = "Courier",
       fontface = "bold"
@@ -136,7 +141,9 @@ plot_pass_item <- function(pass,
     plot <- plot +
       annotate(
         "text",
-        x = 1, y = 2, hjust = 0,
+        x = 1,
+        y = 2,
+        hjust = 0,
         label = the_label
       )
   }

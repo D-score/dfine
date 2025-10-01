@@ -27,15 +27,16 @@
 #' names(difficulty) <- paste0("item", 1:5)
 #' set_anchor(difficulty, items = c("item2", "item4"))
 #' @export
-set_anchor <- function(difficulty,
-                       items = c("gtogmd001", "gtogmd026"),
-                       values = c(20, 40)) {
+set_anchor <- function(
+  difficulty,
+  items = c("gtogmd001", "gtogmd026"),
+  values = c(20, 40)
+) {
   missing <- setdiff(items, names(difficulty))
   if (length(missing) > 0L) {
     stop("Anchor items not found: ", paste(missing, collapse = ", "))
   }
-  df <- data.frame(y = NA,
-                   x = difficulty)
+  df <- data.frame(y = NA, x = difficulty)
   df[items[1], "y"] <- values[1]
   df[items[2], "y"] <- values[2]
   fit <- lm(y ~ x, data = na.omit(df))

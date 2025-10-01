@@ -13,8 +13,6 @@
 #' @return A data frame with items and their classification for DIF.
 #' @export
 calculate_DIF_classification <- function(responses, model = NULL) {
-
-
   id_cols <- c("cohort", "country", "subjid", "pair")
   item_var <- "item"
   response_var <- "response"
@@ -35,15 +33,18 @@ calculate_DIF_classification <- function(responses, model = NULL) {
     arrange(!!!syms(id_cols))
   agedays_info <- responses |>
     distinct(!!!syms(c("subjid", "pair", "ins", "agedays"))) |>
-    pivot_wider(names_from = "ins",
-                values_from = "agedays",
-                names_prefix = "agedays_") |>
+    pivot_wider(
+      names_from = "ins",
+      values_from = "agedays",
+      names_prefix = "agedays_"
+    ) |>
     mutate(agedays = .data$agedays_sf)
   wide <- wide |>
     left_join(agedays_info, by = c("subjid", "pair")) |>
-    mutate(phase = if_else(.data$country %in% c("BGD", "PAK", "TZA"), 1L, 2L)) |>
-    select(all_of(id_cols), starts_with("agedays"),
-           "phase", any_of(items))
+    mutate(
+      phase = if_else(.data$country %in% c("BGD", "PAK", "TZA"), 1L, 2L)
+    ) |>
+    select(all_of(id_cols), starts_with("agedays"), "phase", any_of(items))
 
   # DIF analysis: phase (1 vs 2)
   itemdata <- wide |>
@@ -58,16 +59,22 @@ calculate_DIF_classification <- function(responses, model = NULL) {
     itembank <- model$itembank
     key <- model$name
   }
-  d <- dscore(wide, xname = "agedays", xunit = "days",
-              itembank = itembank, key = key)$d
-
+  d <- dscore(
+    wide,
+    xname = "agedays",
+    xunit = "days",
+    itembank = itembank,
+    key = key
+  )$d
 
   # DIF analysis: phase
-  LR <- genDichoDif(Data = itemdata,
-                    group = phase,
-                    focal.names = 1,
-                    match = d,
-                    method = c("genLogistic"))
+  LR <- genDichoDif(
+    Data = itemdata,
+    group = phase,
+    focal.names = 1,
+    match = d,
+    method = c("genLogistic")
+  )
 
   # DIF analysis: each country vs others
   country <- wide$country
@@ -75,32 +82,66 @@ calculate_DIF_classification <- function(responses, model = NULL) {
   LR_list <- vector("list", length(countries))
   names(LR_list) <- countries
   for (ct in countries) {
-    LR_list[[ct]] <- genDichoDif(Data = itemdata,
-                                 group = country,
-                                 focal.names = ct,
-                                 match = d,
-                                 method = c("genLogistic"))
+    LR_list[[ct]] <- genDichoDif(
+      Data = itemdata,
+      group = country,
+      focal.names = ct,
+      match = d,
+      method = c("genLogistic")
+    )
   }
 
   # Classify according to Jodoin/Gierl criteria
   DIF_table <- data.frame(
     item = colnames(itemdata),
-    phase = cut(LR$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-                labels = c("no", "moderate", "large"), right = FALSE),
-    BGD  = cut(LR_list[["BGD"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE),
-    BRA  = cut(LR_list[["BRA"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE),
-    CHN  = cut(LR_list[["CHN"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE),
-    CIV  = cut(LR_list[["CIV"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE),
-    NLD  = cut(LR_list[["NLD"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE),
-    PAK  = cut(LR_list[["PAK"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE),
-    TZA  = cut(LR_list[["TZA"]]$deltaR2, breaks = c(-Inf, 0.035, 0.07, Inf),
-               labels = c("no", "moderate", "large"), right = FALSE)
+    phase = cut(
+      LR$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    BGD = cut(
+      LR_list[["BGD"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    BRA = cut(
+      LR_list[["BRA"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    CHN = cut(
+      LR_list[["CHN"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    CIV = cut(
+      LR_list[["CIV"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    NLD = cut(
+      LR_list[["NLD"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    PAK = cut(
+      LR_list[["PAK"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    ),
+    TZA = cut(
+      LR_list[["TZA"]]$deltaR2,
+      breaks = c(-Inf, 0.035, 0.07, Inf),
+      labels = c("no", "moderate", "large"),
+      right = FALSE
+    )
   )
 
   return(DIF_table)
